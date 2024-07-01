@@ -1,4 +1,5 @@
-﻿using DomeGym.Contracts.Subscriptions;
+﻿using DomeGym.Application.Services;
+using DomeGym.Contracts.Subscriptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DomeGym.Api.Controllers;
@@ -7,9 +8,23 @@ namespace DomeGym.Api.Controllers;
 [Route("[controller]")]
 public class SubscriptionsController : ControllerBase
 {
+    private readonly ISubscriptionsService _subscriptionsService;
+
+    public SubscriptionsController(ISubscriptionsService subscriptionsService)
+    {
+        _subscriptionsService = subscriptionsService;
+    }
+
     [HttpPost]
     public IActionResult CreateSubscription(CreateSubscriptionRequest request)
     {
-        return Ok(request);
+        var subscriptionId = _subscriptionsService.CreateSubscription(
+            request.SubscriptionType.ToString(),
+            request.AdminId
+        );
+
+        var response = new SubscriptionResponse(subscriptionId, request.SubscriptionType);
+
+        return Ok(response);
     }
 }

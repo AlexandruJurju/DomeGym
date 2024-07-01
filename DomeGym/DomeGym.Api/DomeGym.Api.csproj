@@ -12,8 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DomeGym.Application\DomeGym.Application.csproj" />
-      <ProjectReference Include="..\DomeGym.Contracts\DomeGym.Contracts.csproj" />
+        <ProjectReference Include="..\DomeGym.Application\DomeGym.Application.csproj"/>
+        <ProjectReference Include="..\DomeGym.Contracts\DomeGym.Contracts.csproj"/>
+        <ProjectReference Include="..\DomeGym.Infrastructure\DomeGym.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>
