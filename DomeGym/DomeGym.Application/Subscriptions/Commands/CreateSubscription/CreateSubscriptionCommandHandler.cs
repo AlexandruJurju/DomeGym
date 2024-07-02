@@ -1,11 +1,35 @@
-﻿using MediatR;
+using DomeGym.Application.Common.Interfaces;
+using DomeGym.Domain.Subscriptions;
+using ErrorOr;
+using MediatR;
 
 namespace DomeGym.Application.Subscriptions.Commands.CreateSubscription;
 
-public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscriptionCommand, Guid>
+public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscriptionCommand, ErrorOr<Subscription>>
 {
-    public Task<Guid> Handle(CreateSubscriptionCommand request, CancellationToken cancellationToken)
+    private readonly ISubscriptionsRepository _subscriptionsRepository;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public CreateSubscriptionCommandHandler(ISubscriptionsRepository subscriptionsRepository, IUnitOfWork unitOfWork)
     {
-        return Task.FromResult(Guid.NewGuid());
+        _subscriptionsRepository = subscriptionsRepository;
+        _unitOfWork = unitOfWork;
+    }
+
+    public async Task<ErrorOr<Subscription>> Handle(CreateSubscriptionCommand request, CancellationToken cancellationToken)
+    {
+        // Create a subscription
+        var subscription = new Subscription
+        {
+            Id = Guid.NewGuid(),
+            SubscriptionType = request.SubscriptionType
+        };
+
+        // Add it to the database
+        await _subscriptionsRepository.AddSubscriptionAsync(subscription);
+        await _unitOfWork.CommitChangesAsync();
+
+        // Return subscription
+        return subscription;
     }
 }

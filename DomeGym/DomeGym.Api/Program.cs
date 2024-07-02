@@ -2,33 +2,36 @@ using DomeGym.Application;
 using DomeGym.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication();
-builder.Services.AddControllers();
-
-builder.Services.AddApplication(builder.Configuration)
-    .AddInfrastructure(builder.Configuration);
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+    builder.Services.AddAuthorization();
+    builder.Services.AddAuthentication();
+    builder.Services.AddControllers();
+
+    builder.Services.AddApplication(builder.Configuration)
+        .AddInfrastructure(builder.Configuration);
 }
 
-app.UseCors(c =>
+
+var app = builder.Build();
 {
-    c.AllowAnyOrigin()
-        .AllowAnyHeader()
-        .AllowAnyMethod();
-});
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.MapControllers();
+    app.UseCors(c =>
+    {
+        c.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 
-app.Run();
+    app.UseHttpsRedirection();
+    app.UseAuthentication();
+    app.MapControllers();
+
+    app.Run();
+}

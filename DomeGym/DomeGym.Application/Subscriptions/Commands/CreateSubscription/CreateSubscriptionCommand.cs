@@ -1,8 +1,9 @@
-﻿using MediatR;
+using DomeGym.Domain.Subscriptions;
+using ErrorOr;
+using MediatR;
 
 namespace DomeGym.Application.Subscriptions.Commands.CreateSubscription;
 
 public record CreateSubscriptionCommand(
     string SubscriptionType,
-    Guid AdminId
-) : IRequest<Guid>;
+    Guid AdminId) : IRequest<ErrorOr<Subscription>>;
