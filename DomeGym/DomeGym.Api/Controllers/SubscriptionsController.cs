@@ -3,6 +3,7 @@ using DomeGym.Application.Subscriptions.Queries.GetSubscription;
 using DomeGym.Contracts.Subscriptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using DomainSubscriptionType = DomeGym.Domain.Subscriptions.SubscriptionType;
 
 namespace DomeGym.Api.Controllers;
 
@@ -20,8 +21,15 @@ public class SubscriptionsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateSubscription(CreateSubscriptionRequest request)
     {
+        if (DomainSubscriptionType.TryFromName(
+                request.SubscriptionType.ToString(),
+                out var subscriptionType))
+            return Problem(
+                statusCode: StatusCodes.Status400BadRequest,
+                detail: "Invalid Subscription type");
+
         var command = new CreateSubscriptionCommand(
-            request.SubscriptionType.ToString(),
+            subscriptionType,
             request.AdminId);
 
         var createSubscriptionResult = await _mediator.Send(command);
@@ -41,7 +49,7 @@ public class SubscriptionsController : ControllerBase
         return getSubscriptionsResult.MatchFirst(
             subscription => Ok(new SubscriptionResponse(
                 subscription.Id,
-                Enum.Parse<SubscriptionType>(subscription.SubscriptionType))),
+                Enum.Parse<SubscriptionType>(subscription.SubscriptionType.Name))),
             error => Problem());
     }
 }
