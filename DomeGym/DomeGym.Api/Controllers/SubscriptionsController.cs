@@ -1,4 +1,5 @@
 using DomeGym.Application.Subscriptions.Commands.CreateSubscription;
+using DomeGym.Application.Subscriptions.Commands.DeleteSubscription;
 using DomeGym.Application.Subscriptions.Queries.GetSubscription;
 using DomeGym.Contracts.Subscriptions;
 using MediatR;
@@ -21,12 +22,14 @@ public class SubscriptionsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateSubscription(CreateSubscriptionRequest request)
     {
-        if (DomainSubscriptionType.TryFromName(
-                request.SubscriptionType.ToString(),
-                out var subscriptionType))
+        if (!DomainSubscriptionType.TryFromName(
+            request.SubscriptionType.ToString(),
+            out var subscriptionType))
+        {
             return Problem(
                 statusCode: StatusCodes.Status400BadRequest,
-                detail: "Invalid Subscription type");
+                detail: "Invalid subscription type");
+        }
 
         var command = new CreateSubscriptionCommand(
             subscriptionType,
@@ -35,7 +38,12 @@ public class SubscriptionsController : ControllerBase
         var createSubscriptionResult = await _mediator.Send(command);
 
         return createSubscriptionResult.MatchFirst(
-            subscription => Ok(new SubscriptionResponse(subscription.Id, request.SubscriptionType)),
+            subscription => CreatedAtAction(
+                nameof(GetSubscription),
+                new { subscriptionId = subscription.Id },
+                new SubscriptionResponse(
+                    subscription.Id,
+                    ToDto(subscription.SubscriptionType))),
             error => Problem());
     }
 
@@ -49,7 +57,30 @@ public class SubscriptionsController : ControllerBase
         return getSubscriptionsResult.MatchFirst(
             subscription => Ok(new SubscriptionResponse(
                 subscription.Id,
-                Enum.Parse<SubscriptionType>(subscription.SubscriptionType.Name))),
+                ToDto(subscription.SubscriptionType))),
             error => Problem());
+    }
+
+    [HttpDelete("{subscriptionId:guid}")]
+    public async Task<IActionResult> DeleteSubscription(Guid subscriptionId)
+    {
+        var command = new DeleteSubscriptionCommand(subscriptionId);
+
+        var createSubscriptionResult = await _mediator.Send(command);
+
+        return createSubscriptionResult.Match<IActionResult>(
+            _ => NoContent(),
+            _ => Problem());
+    }
+
+    private static SubscriptionType ToDto(DomainSubscriptionType subscriptionType)
+    {
+        return subscriptionType.Name switch
+        {
+            nameof(DomainSubscriptionType.Free) => SubscriptionType.Free,
+            nameof(DomainSubscriptionType.Starter) => SubscriptionType.Starter,
+            nameof(DomainSubscriptionType.Pro) => SubscriptionType.Pro,
+            _ => throw new InvalidOperationException(),
+        };
     }
 }
