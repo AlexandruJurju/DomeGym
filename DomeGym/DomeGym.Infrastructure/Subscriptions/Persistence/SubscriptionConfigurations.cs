@@ -1,11 +1,11 @@
-﻿using DomeGym.Domain.Subscriptions;
+using DomeGym.Domain.Subscriptions;
 using DomeGym.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DomeGym.Infrastructure.Subscriptions.Persistence;
 
-public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
+public class SubscriptionConfigurations : IEntityTypeConfiguration<Subscription>
 {
     public void Configure(EntityTypeBuilder<Subscription> builder)
     {

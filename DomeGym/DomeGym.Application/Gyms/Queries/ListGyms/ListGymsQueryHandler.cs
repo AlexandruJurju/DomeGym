@@ -1,4 +1,4 @@
-﻿using DomeGym.Application.Common.Interfaces;
+using DomeGym.Application.Common.Interfaces;
 using DomeGym.Domain.Gyms;
 using ErrorOr;
 using MediatR;
@@ -18,10 +18,7 @@ public class ListGymsQueryHandler : IRequestHandler<ListGymsQuery, ErrorOr<List<
 
     public async Task<ErrorOr<List<Gym>>> Handle(ListGymsQuery query, CancellationToken cancellationToken)
     {
-        if (!await _subscriptionsRepository.ExistsAsync(query.SubscriptionId))
-        {
-            return Error.NotFound(description: "Subscription not found");
-        }
+        if (!await _subscriptionsRepository.ExistsAsync(query.SubscriptionId)) return Error.NotFound(description: "Subscription not found");
 
         return await _gymsRepository.ListBySubscriptionIdAsync(query.SubscriptionId);
     }

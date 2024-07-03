@@ -1,4 +1,4 @@
-﻿namespace DomeGym.Contracts.Subscriptions;
+namespace DomeGym.Contracts.Subscriptions;
 
 public record CreateSubscriptionRequest(
     SubscriptionType SubscriptionType,

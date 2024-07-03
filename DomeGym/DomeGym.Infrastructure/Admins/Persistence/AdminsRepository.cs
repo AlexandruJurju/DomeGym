@@ -1,4 +1,4 @@
-﻿using DomeGym.Application.Common.Interfaces;
+using DomeGym.Application.Common.Interfaces;
 using DomeGym.Domain.Admins;
 using DomeGym.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;

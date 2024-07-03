@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Rooms\Queries\" />
+        <Folder Include="Rooms\Queries\"/>
     </ItemGroup>
 
 </Project>

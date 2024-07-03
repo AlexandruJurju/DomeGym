@@ -1,6 +1,3 @@
-﻿namespace DomeGym.Contracts.Subscriptions;
+namespace DomeGym.Contracts.Subscriptions;
 
-public record SubscriptionResponse(
-    Guid Id,
-    SubscriptionType SubscriptionType
-);
+public record SubscriptionResponse(Guid Id, SubscriptionType SubscriptionType);

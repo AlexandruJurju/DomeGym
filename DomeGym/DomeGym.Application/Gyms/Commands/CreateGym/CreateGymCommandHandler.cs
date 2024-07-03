@@ -1,4 +1,4 @@
-﻿using DomeGym.Application.Common.Interfaces;
+using DomeGym.Application.Common.Interfaces;
 using DomeGym.Domain.Gyms;
 using ErrorOr;
 using MediatR;
@@ -7,37 +7,34 @@ namespace DomeGym.Application.Gyms.Commands.CreateGym;
 
 public class CreateGymCommandHandler : IRequestHandler<CreateGymCommand, ErrorOr<Gym>>
 {
-    private readonly ISubscriptionsRepository _subscriptionsRepository;
     private readonly IGymsRepository _gymsRepository;
+    private readonly ISubscriptionsRepository _subscriptionsRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateGymCommandHandler(IUnitOfWork unitOfWork, IGymsRepository gymsRepository, ISubscriptionsRepository subscriptionsRepository)
+    public CreateGymCommandHandler(
+        ISubscriptionsRepository subscriptionsRepository,
+        IGymsRepository gymsRepository,
+        IUnitOfWork unitOfWork)
     {
-        _unitOfWork = unitOfWork;
-        _gymsRepository = gymsRepository;
         _subscriptionsRepository = subscriptionsRepository;
+        _gymsRepository = gymsRepository;
+        _unitOfWork = unitOfWork;
     }
-
 
     public async Task<ErrorOr<Gym>> Handle(CreateGymCommand command, CancellationToken cancellationToken)
     {
         var subscription = await _subscriptionsRepository.GetByIdAsync(command.SubscriptionId);
-        if (subscription is null)
-        {
-            return Error.NotFound(description: "Subscription not found");
-        }
+
+        if (subscription is null) return Error.NotFound(description: "Subscription not found");
 
         var gym = new Gym(
-            name: command.Name,
-            maxRooms: subscription.GetMaxRooms(),
-            subscriptionId: subscription.Id
-        );
+            command.Name,
+            subscription.GetMaxRooms(),
+            subscription.Id);
 
         var addGymResult = subscription.AddGym(gym);
-        if (addGymResult.IsError)
-        {
-            return addGymResult.Errors;
-        }
+
+        if (addGymResult.IsError) return addGymResult.Errors;
 
         await _subscriptionsRepository.UpdateAsync(subscription);
         await _gymsRepository.AddGymAsync(gym);

@@ -1,3 +1,3 @@
-﻿namespace DomeGym.Contracts.Gyms;
+namespace DomeGym.Contracts.Gyms;
 
 public record CreateGymRequest(string Name);

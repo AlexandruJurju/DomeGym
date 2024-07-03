@@ -38,7 +38,6 @@ public class SubscriptionsRepository : ISubscriptionsRepository
         return await _dbContext.Subscriptions.FirstOrDefaultAsync(subscription => subscription.Id == id);
     }
 
-
     public async Task<List<Subscription>> ListAsync()
     {
         return await _dbContext.Subscriptions.ToListAsync();

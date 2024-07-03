@@ -1,14 +1,10 @@
-﻿using DomeGym.Domain.Subscriptions;
+using DomeGym.Domain.Subscriptions;
 using Throw;
 
 namespace DomeGym.Domain.Admins;
 
 public class Admin
 {
-    public Guid UserId { get; private set; }
-    public Guid? SubscriptionId { get; private set; } = null;
-    public Guid Id { get; private set; }
-
     public Admin(
         Guid userId,
         Guid? subscriptionId = null,
@@ -22,6 +18,10 @@ public class Admin
     private Admin()
     {
     }
+
+    public Guid UserId { get; }
+    public Guid? SubscriptionId { get; private set; }
+    public Guid Id { get; private set; }
 
     public void SetSubscription(Subscription subscription)
     {

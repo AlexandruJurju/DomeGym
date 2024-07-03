@@ -1,4 +1,4 @@
-﻿using DomeGym.Domain.Admins;
+using DomeGym.Domain.Admins;
 
 namespace DomeGym.Application.Common.Interfaces;
 

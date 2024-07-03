@@ -1,4 +1,4 @@
-﻿using DomeGym.Application.Gyms.Commands.AddTrainer;
+using DomeGym.Application.Gyms.Commands.AddTrainer;
 using DomeGym.Application.Gyms.Commands.CreateGym;
 using DomeGym.Application.Gyms.Commands.DeleteGym;
 using DomeGym.Application.Gyms.Queries.GetGym;

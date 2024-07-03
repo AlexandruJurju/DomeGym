@@ -1,4 +1,4 @@
-﻿using DomeGym.Application.Common.Interfaces;
+using DomeGym.Application.Common.Interfaces;
 using DomeGym.Domain.Gyms;
 using ErrorOr;
 using MediatR;
@@ -18,15 +18,9 @@ public class GetGymQueryHandler : IRequestHandler<GetGymQuery, ErrorOr<Gym>>
 
     public async Task<ErrorOr<Gym>> Handle(GetGymQuery request, CancellationToken cancellationToken)
     {
-        if (await _subscriptionsRepository.ExistsAsync(request.SubscriptionId))
-        {
-            return Error.NotFound("Subscription not found");
-        }
+        if (await _subscriptionsRepository.ExistsAsync(request.SubscriptionId)) return Error.NotFound("Subscription not found");
 
-        if (await _gymsRepository.GetByIdAsync(request.GymId) is not Gym gym)
-        {
-            return Error.NotFound(description: "Gym not found");
-        }
+        if (await _gymsRepository.GetByIdAsync(request.GymId) is not Gym gym) return Error.NotFound(description: "Gym not found");
 
         return gym;
     }

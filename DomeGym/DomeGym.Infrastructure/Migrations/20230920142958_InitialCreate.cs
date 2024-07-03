@@ -3,42 +3,19 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DomeGym.Infrastructure.Migrations
+namespace GymManagement.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Mig : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
-                name: "SubscriptionType",
-                table: "Subscriptions",
-                type: "INTEGER",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "TEXT");
-
-            migrationBuilder.AddColumn<string>(
-                name: "GymIds",
-                table: "Subscriptions",
-                type: "TEXT",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<int>(
-                name: "MaxGyms",
-                table: "Subscriptions",
-                type: "INTEGER",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateTable(
                 name: "Admins",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
                     SubscriptionId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -62,10 +39,25 @@ namespace DomeGym.Infrastructure.Migrations
                     table.PrimaryKey("PK_Gyms", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Subscriptions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    SubscriptionType = table.Column<int>(type: "INTEGER", nullable: false),
+                    AdminId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    GymIds = table.Column<string>(type: "TEXT", nullable: false),
+                    MaxGyms = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscriptions", x => x.Id);
+                });
+
             migrationBuilder.InsertData(
                 table: "Admins",
-                columns: new[] { "Id", "SubscriptionId", "UserId" },
-                values: new object[] { new Guid("2150e333-8fdc-42a3-9474-1a3956d46de8"), null, new Guid("9effab57-47cb-43ec-b420-d9914b63f1b4") });
+                columns: new[] { "Id", "SubscriptionId" },
+                values: new object[] { new Guid("2150e333-8fdc-42a3-9474-1a3956d46de8"), null });
         }
 
         /// <inheritdoc />
@@ -77,21 +69,8 @@ namespace DomeGym.Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "Gyms");
 
-            migrationBuilder.DropColumn(
-                name: "GymIds",
-                table: "Subscriptions");
-
-            migrationBuilder.DropColumn(
-                name: "MaxGyms",
-                table: "Subscriptions");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "SubscriptionType",
-                table: "Subscriptions",
-                type: "TEXT",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "INTEGER");
+            migrationBuilder.DropTable(
+                name: "Subscriptions");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DomeGym.Application.Common.Interfaces;
+using DomeGym.Application.Common.Interfaces;
 using ErrorOr;
 using MediatR;
 
@@ -6,8 +6,8 @@ namespace DomeGym.Application.Gyms.Commands.DeleteGym;
 
 public class DeleteGymCommandHandler : IRequestHandler<DeleteGymCommand, ErrorOr<Deleted>>
 {
-    private readonly ISubscriptionsRepository _subscriptionsRepository;
     private readonly IGymsRepository _gymsRepository;
+    private readonly ISubscriptionsRepository _subscriptionsRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public DeleteGymCommandHandler(
@@ -23,21 +23,14 @@ public class DeleteGymCommandHandler : IRequestHandler<DeleteGymCommand, ErrorOr
     public async Task<ErrorOr<Deleted>> Handle(DeleteGymCommand command, CancellationToken cancellationToken)
     {
         var gym = await _gymsRepository.GetByIdAsync(command.GymId);
-        if (gym is null)
-        {
-            return Error.NotFound(description: "Gym not found");
-        }
+
+        if (gym is null) return Error.NotFound(description: "Gym not found");
 
         var subscription = await _subscriptionsRepository.GetByIdAsync(command.SubscriptionId);
-        if (subscription is null)
-        {
-            return Error.NotFound(description: "Subscription not found");
-        }
 
-        if (!subscription.HasGym(command.GymId))
-        {
-            return Error.Unexpected(description: "Gym not found");
-        }
+        if (subscription is null) return Error.NotFound(description: "Subscription not found");
+
+        if (!subscription.HasGym(command.GymId)) return Error.Unexpected(description: "Gym not found");
 
         subscription.RemoveGym(command.GymId);
 

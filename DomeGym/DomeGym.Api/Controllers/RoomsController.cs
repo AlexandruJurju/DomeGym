@@ -1,4 +1,4 @@
-﻿using DomeGym.Application.Rooms.Commands.CreateRoom;
+using DomeGym.Application.Rooms.Commands.CreateRoom;
 using DomeGym.Application.Rooms.Commands.DeleteRoom;
 using DomeGym.Contracts.Rooms;
 using MediatR;

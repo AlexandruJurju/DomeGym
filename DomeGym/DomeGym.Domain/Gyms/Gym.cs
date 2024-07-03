@@ -1,4 +1,4 @@
-﻿using DomeGym.Domain.Rooms;
+using DomeGym.Domain.Rooms;
 using ErrorOr;
 using Throw;
 
@@ -6,12 +6,7 @@ namespace DomeGym.Domain.Gyms;
 
 public class Gym
 {
-    public Guid Id { get; private set; }
-    public string Name { get; private set; } = null!;
-
     private readonly int _maxRooms;
-
-    public Guid SubscriptionId { get; private set; }
     private readonly List<Guid> _roomIds = new();
     private readonly List<Guid> _trainerIds = new();
 
@@ -27,14 +22,20 @@ public class Gym
         Id = id ?? Guid.NewGuid();
     }
 
+    private Gym()
+    {
+    }
+
+    public Guid Id { get; }
+
+    public string Name { get; init; } = null!;
+    public Guid SubscriptionId { get; init; }
+
     public ErrorOr<Success> AddRoom(Room room)
     {
         _roomIds.Throw().IfContains(room.Id);
 
-        if (_roomIds.Count >= _maxRooms)
-        {
-            return GymErrors.CannotHaveMoreRoomsThanSubscriptionAllows;
-        }
+        if (_roomIds.Count >= _maxRooms) return GymErrors.CannotHaveMoreRoomsThanSubscriptionAllows;
 
         _roomIds.Add(room.Id);
 
@@ -48,10 +49,7 @@ public class Gym
 
     public ErrorOr<Success> AddTrainer(Guid trainerId)
     {
-        if (_trainerIds.Contains(trainerId))
-        {
-            return Error.Conflict(description: "Trainer already added to gym");
-        }
+        if (_trainerIds.Contains(trainerId)) return Error.Conflict(description: "Trainer already added to gym");
 
         _trainerIds.Add(trainerId);
         return Result.Success;
@@ -65,9 +63,5 @@ public class Gym
     public void RemoveRoom(Guid roomId)
     {
         _roomIds.Remove(roomId);
-    }
-
-    private Gym()
-    {
     }
 }

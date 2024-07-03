@@ -1,4 +1,4 @@
-﻿using ErrorOr;
+using ErrorOr;
 using MediatR;
 
 namespace DomeGym.Application.Rooms.Commands.DeleteRoom;

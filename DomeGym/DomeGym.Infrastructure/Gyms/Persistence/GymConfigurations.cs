@@ -1,4 +1,4 @@
-﻿using DomeGym.Domain.Gyms;
+using DomeGym.Domain.Gyms;
 using DomeGym.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

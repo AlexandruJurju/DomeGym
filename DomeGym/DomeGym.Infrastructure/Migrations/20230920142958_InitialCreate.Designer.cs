@@ -8,28 +8,25 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DomeGym.Infrastructure.Migrations
+namespace GymManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(GymManagementDbContext))]
-    [Migration("20240703052430_Mig")]
-    partial class Mig
+    [Migration("20230920142958_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
 
-            modelBuilder.Entity("DomeGym.Domain.Admins.Admin", b =>
+            modelBuilder.Entity("GymManagement.Domain.Admins.Admin", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("SubscriptionId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -39,12 +36,11 @@ namespace DomeGym.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2150e333-8fdc-42a3-9474-1a3956d46de8"),
-                            UserId = new Guid("9effab57-47cb-43ec-b420-d9914b63f1b4")
+                            Id = new Guid("2150e333-8fdc-42a3-9474-1a3956d46de8")
                         });
                 });
 
-            modelBuilder.Entity("DomeGym.Domain.Gyms.Gym", b =>
+            modelBuilder.Entity("GymManagement.Domain.Gyms.Gym", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
@@ -75,7 +71,7 @@ namespace DomeGym.Infrastructure.Migrations
                     b.ToTable("Gyms");
                 });
 
-            modelBuilder.Entity("DomeGym.Domain.Subscriptions.Subscription", b =>
+            modelBuilder.Entity("GymManagement.Domain.Subscriptions.Subscription", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");

@@ -7,8 +7,8 @@ namespace DomeGym.Application.Subscriptions.Commands.CreateSubscription;
 
 public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscriptionCommand, ErrorOr<Subscription>>
 {
-    private readonly ISubscriptionsRepository _subscriptionsRepository;
     private readonly IAdminsRepository _adminsRepository;
+    private readonly ISubscriptionsRepository _subscriptionsRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateSubscriptionCommandHandler(ISubscriptionsRepository subscriptionsRepository, IUnitOfWork unitOfWork, IAdminsRepository adminsRepository)
@@ -22,19 +22,13 @@ public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscripti
     {
         var admin = await _adminsRepository.GetByIdAsync(request.AdminId);
 
-        if (admin is null)
-        {
-            return Error.NotFound(description: "Admin not found");
-        }
+        if (admin is null) return Error.NotFound(description: "Admin not found");
 
         var subscription = new Subscription(
-            subscriptionType: request.SubscriptionType,
-            adminId: request.AdminId);
+            request.SubscriptionType,
+            request.AdminId);
 
-        if (admin.SubscriptionId is not null)
-        {
-            return Error.Conflict(description: "Admin already has an active subscription");
-        }
+        if (admin.SubscriptionId is not null) return Error.Conflict(description: "Admin already has an active subscription");
 
         admin.SetSubscription(subscription);
 

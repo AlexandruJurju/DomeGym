@@ -22,13 +22,11 @@ public class SubscriptionsController : ApiController
     public async Task<IActionResult> CreateSubscription(CreateSubscriptionRequest request)
     {
         if (!DomainSubscriptionType.TryFromName(
-            request.SubscriptionType.ToString(),
-            out var subscriptionType))
-        {
+                request.SubscriptionType.ToString(),
+                out var subscriptionType))
             return Problem(
                 statusCode: StatusCodes.Status400BadRequest,
                 detail: "Invalid subscription type");
-        }
 
         var command = new CreateSubscriptionCommand(
             subscriptionType,
@@ -79,7 +77,7 @@ public class SubscriptionsController : ApiController
             nameof(DomainSubscriptionType.Free) => SubscriptionType.Free,
             nameof(DomainSubscriptionType.Starter) => SubscriptionType.Starter,
             nameof(DomainSubscriptionType.Pro) => SubscriptionType.Pro,
-            _ => throw new InvalidOperationException(),
+            _ => throw new InvalidOperationException()
         };
     }
 }
