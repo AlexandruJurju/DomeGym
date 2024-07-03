@@ -8,9 +8,8 @@ using DomainSubscriptionType = DomeGym.Domain.Subscriptions.SubscriptionType;
 
 namespace DomeGym.Api.Controllers;
 
-[ApiController]
 [Route("[controller]")]
-public class SubscriptionsController : ControllerBase
+public class SubscriptionsController : ApiController
 {
     private readonly ISender _mediator;
 
@@ -37,14 +36,14 @@ public class SubscriptionsController : ControllerBase
 
         var createSubscriptionResult = await _mediator.Send(command);
 
-        return createSubscriptionResult.MatchFirst(
+        return createSubscriptionResult.Match(
             subscription => CreatedAtAction(
                 nameof(GetSubscription),
                 new { subscriptionId = subscription.Id },
                 new SubscriptionResponse(
                     subscription.Id,
                     ToDto(subscription.SubscriptionType))),
-            error => Problem());
+            Problem);
     }
 
     [HttpGet("{subscriptionId:guid}")]
@@ -54,11 +53,11 @@ public class SubscriptionsController : ControllerBase
 
         var getSubscriptionsResult = await _mediator.Send(query);
 
-        return getSubscriptionsResult.MatchFirst(
+        return getSubscriptionsResult.Match(
             subscription => Ok(new SubscriptionResponse(
                 subscription.Id,
                 ToDto(subscription.SubscriptionType))),
-            error => Problem());
+            Problem);
     }
 
     [HttpDelete("{subscriptionId:guid}")]
@@ -68,9 +67,9 @@ public class SubscriptionsController : ControllerBase
 
         var createSubscriptionResult = await _mediator.Send(command);
 
-        return createSubscriptionResult.Match<IActionResult>(
+        return createSubscriptionResult.Match(
             _ => NoContent(),
-            _ => Problem());
+            Problem);
     }
 
     private static SubscriptionType ToDto(DomainSubscriptionType subscriptionType)

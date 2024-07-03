@@ -9,9 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DomeGym.Api.Controllers;
 
-[ApiController]
 [Route("subscriptions/{subscriptionId:guid}/gyms")]
-public class GymsController : ControllerBase
+public class GymsController : ApiController
 {
     private readonly ISender _mediator;
 
@@ -34,7 +33,7 @@ public class GymsController : ControllerBase
                 nameof(GetGym),
                 new { subscriptionId, GymId = gym.Id },
                 new GymResponse(gym.Id, gym.Name)),
-            _ => Problem());
+            Problem);
     }
 
     [HttpDelete("{gymId:guid}")]
@@ -44,9 +43,9 @@ public class GymsController : ControllerBase
 
         var deleteGymResult = await _mediator.Send(command);
 
-        return deleteGymResult.Match<IActionResult>(
+        return deleteGymResult.Match(
             _ => NoContent(),
-            _ => Problem());
+            Problem);
     }
 
     [HttpGet]
@@ -58,7 +57,7 @@ public class GymsController : ControllerBase
 
         return listGymsResult.Match(
             gyms => Ok(gyms.ConvertAll(gym => new GymResponse(gym.Id, gym.Name))),
-            _ => Problem());
+            Problem);
     }
 
     [HttpGet("{gymId:guid}")]
@@ -70,7 +69,7 @@ public class GymsController : ControllerBase
 
         return getGymResult.Match(
             gym => Ok(new GymResponse(gym.Id, gym.Name)),
-            _ => Problem());
+            Problem);
     }
 
     [HttpPost("{gymId:guid}/trainers")]
@@ -80,8 +79,8 @@ public class GymsController : ControllerBase
 
         var addTrainerResult = await _mediator.Send(command);
 
-        return addTrainerResult.MatchFirst<IActionResult>(
+        return addTrainerResult.Match(
             success => Ok(),
-            error => Problem());
+            Problem);
     }
 }

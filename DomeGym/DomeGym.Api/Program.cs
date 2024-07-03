@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddAuthorization();
     builder.Services.AddAuthentication();
     builder.Services.AddControllers();
+    builder.Services.AddProblemDetails();
 
     builder.Services.AddApplication(builder.Configuration)
         .AddInfrastructure(builder.Configuration);
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.UseExceptionHandler();
+
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
