@@ -13,9 +13,9 @@ namespace DomeGym.Application.UnitTests.Common.Behaviour;
 
 public class ValidationBehaviourTests
 {
-    private readonly ValidationBehavior<CreateGymCommand, ErrorOr<Gym>> _validationBehavior;
-    private readonly IValidator<CreateGymCommand> _mockValidator;
     private readonly RequestHandlerDelegate<ErrorOr<Gym>> _mockNextBehavior;
+    private readonly IValidator<CreateGymCommand> _mockValidator;
+    private readonly ValidationBehavior<CreateGymCommand, ErrorOr<Gym>> _validationBehavior;
 
     public ValidationBehaviourTests()
     {
@@ -55,7 +55,7 @@ public class ValidationBehaviourTests
     {
         // Arrange
         var createGymRequest = GymCommandFactory.CreateCreateGymCommand();
-        List<ValidationFailure> validationFailures = [new(propertyName: "foo", errorMessage: "bad foo")];
+        List<ValidationFailure> validationFailures = [new ValidationFailure("foo", "bad foo")];
 
         _mockValidator
             .ValidateAsync(createGymRequest, Arg.Any<CancellationToken>())

@@ -5,11 +5,21 @@ using Microsoft.EntityFrameworkCore;
 namespace DomeGym.Api.IntegrationTests.Common;
 
 /// <summary>
-/// We're using SQLite so no need to spin an actual database.
+///     We're using SQLite so no need to spin an actual database.
 /// </summary>
 public class SqliteTestDatabase : IDisposable
 {
+    private SqliteTestDatabase(string connectionString)
+    {
+        Connection = new SqliteConnection(connectionString);
+    }
+
     public SqliteConnection Connection { get; }
+
+    public void Dispose()
+    {
+        Connection.Close();
+    }
 
     public static SqliteTestDatabase CreateAndInitialize()
     {
@@ -37,15 +47,5 @@ public class SqliteTestDatabase : IDisposable
         Connection.Close();
 
         InitializeDatabase();
-    }
-
-    private SqliteTestDatabase(string connectionString)
-    {
-        Connection = new SqliteConnection(connectionString);
-    }
-
-    public void Dispose()
-    {
-        Connection.Close();
     }
 }

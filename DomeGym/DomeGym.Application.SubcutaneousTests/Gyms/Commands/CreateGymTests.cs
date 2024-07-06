@@ -1,6 +1,5 @@
 ﻿using DomeGym.Application.SubcutaneousTests.Common;
 using DomeGym.Domain.Subscriptions;
-using ErrorOr;
 using FluentAssertions;
 using MediatR;
 using TestsCommon.Gyms;
@@ -45,7 +44,7 @@ public class CreateGymTests(MediatorFactory mediatorFactory)
         result.IsError.Should().BeFalse();
         return result.Value;
     }
-    
+
     [Theory]
     [InlineData(0)]
     [InlineData(1)]
@@ -54,7 +53,7 @@ public class CreateGymTests(MediatorFactory mediatorFactory)
     {
         // Arrange
         string gymName = new('a', gymNameLength);
-        var createGymCommand = GymCommandFactory.CreateCreateGymCommand(name: gymName);
+        var createGymCommand = GymCommandFactory.CreateCreateGymCommand(gymName);
 
         // Act
         var result = await _mediator.Send(createGymCommand);
@@ -63,5 +62,4 @@ public class CreateGymTests(MediatorFactory mediatorFactory)
         result.IsError.Should().BeTrue();
         result.FirstError.Code.Should().Be("Name");
     }
-
 }

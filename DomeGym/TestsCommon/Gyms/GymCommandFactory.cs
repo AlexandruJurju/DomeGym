@@ -10,7 +10,7 @@ public static class GymCommandFactory
         Guid? subscriptionId = null)
     {
         return new CreateGymCommand(
-            Name: name,
-            SubscriptionId: subscriptionId ?? Constants.Subscriptions.Id);
+            name,
+            subscriptionId ?? Constants.Subscriptions.Id);
     }
 }

@@ -24,7 +24,7 @@ public class CreateSubscriptionTests
     {
         // Arrange
         var createSubscriptionRequest = new CreateSubscriptionRequest(
-            SubscriptionType: subscriptionType,
+            subscriptionType,
             Constants.Admin.Id);
 
         // Act
@@ -46,10 +46,7 @@ public class CreateSubscriptionTests
 
         var theoryData = new TheoryData<SubscriptionType>();
 
-        foreach (var subscriptionType in subscriptionTypes)
-        {
-            theoryData.Add(subscriptionType);
-        }
+        foreach (var subscriptionType in subscriptionTypes) theoryData.Add(subscriptionType);
 
         return theoryData;
     }

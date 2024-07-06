@@ -1,5 +1,4 @@
-﻿
-using DomeGym.Domain.Subscriptions;
+﻿using DomeGym.Domain.Subscriptions;
 using TestsCommon.TestConstants;
 
 namespace TestsCommon.Subscriptions;
@@ -12,8 +11,8 @@ public static class SubscriptionFactory
         Guid? id = null)
     {
         return new Subscription(
-            subscriptionType: subscriptionType ?? Constants.Subscriptions.DefaultSubscriptionType,
-            adminId: adminId ?? TestConstants.Constants.Admin.Id,
-            id: id ?? TestConstants.Constants.Subscriptions.Id);
+            subscriptionType ?? Constants.Subscriptions.DefaultSubscriptionType,
+            adminId ?? Constants.Admin.Id,
+            id ?? Constants.Subscriptions.Id);
     }
 }

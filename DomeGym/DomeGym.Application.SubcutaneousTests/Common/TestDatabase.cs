@@ -5,12 +5,22 @@ using Microsoft.EntityFrameworkCore;
 namespace DomeGym.Application.SubcutaneousTests.Common;
 
 /// <summary>
-/// In Subcutaneous tests we aren't testing integration with a real database,
-/// so even if we weren't using SQLite we would use some in-memory database.
+///     In Subcutaneous tests we aren't testing integration with a real database,
+///     so even if we weren't using SQLite we would use some in-memory database.
 /// </summary>
 public class SqliteTestDatabase : IDisposable
 {
+    private SqliteTestDatabase(string connectionString)
+    {
+        Connection = new SqliteConnection(connectionString);
+    }
+
     public SqliteConnection Connection { get; }
+
+    public void Dispose()
+    {
+        Connection.Close();
+    }
 
     public static SqliteTestDatabase CreateAndInitialize()
     {
@@ -38,15 +48,5 @@ public class SqliteTestDatabase : IDisposable
         Connection.Close();
 
         InitializeDatabase();
-    }
-
-    private SqliteTestDatabase(string connectionString)
-    {
-        Connection = new SqliteConnection(connectionString);
-    }
-
-    public void Dispose()
-    {
-        Connection.Close();
     }
 }

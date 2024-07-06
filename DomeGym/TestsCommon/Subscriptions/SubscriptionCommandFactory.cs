@@ -11,7 +11,7 @@ public static class SubscriptionCommandFactory
         Guid? adminId = null)
     {
         return new CreateSubscriptionCommand(
-            SubscriptionType: subscriptionType ?? Constants.Subscriptions.DefaultSubscriptionType,
-            AdminId: adminId ?? Constants.Admin.Id);
+            subscriptionType ?? Constants.Subscriptions.DefaultSubscriptionType,
+            adminId ?? Constants.Admin.Id);
     }
 }

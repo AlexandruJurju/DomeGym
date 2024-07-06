@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace GymManagement.Infrastructure.Migrations
+namespace DomeGym.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,6 +54,24 @@ namespace GymManagement.Infrastructure.Migrations
                     table.PrimaryKey("PK_Subscriptions", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    AdminId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ParticipantId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    TrainerId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "SubscriptionId" },
@@ -71,6 +89,9 @@ namespace GymManagement.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Subscriptions");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

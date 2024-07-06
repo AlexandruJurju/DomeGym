@@ -1,7 +1,6 @@
 ﻿using DomeGym.Domain.Gyms;
 using TestsCommon.TestConstants;
 
-
 namespace TestsCommon.Gyms;
 
 public static class GymFactory
@@ -14,7 +13,7 @@ public static class GymFactory
         return new Gym(
             name,
             maxRooms,
-            subscriptionId: Constants.Subscriptions.Id,
-            id: id ?? Constants.Gym.Id);
+            Constants.Subscriptions.Id,
+            id ?? Constants.Gym.Id);
     }
 }

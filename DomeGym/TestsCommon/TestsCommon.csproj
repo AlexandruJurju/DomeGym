@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DomeGym.Application\DomeGym.Application.csproj" />
-      <ProjectReference Include="..\DomeGym.Domain\DomeGym.Domain.csproj" />
+        <ProjectReference Include="..\DomeGym.Application\DomeGym.Application.csproj"/>
+        <ProjectReference Include="..\DomeGym.Domain\DomeGym.Domain.csproj"/>
     </ItemGroup>
 
 </Project>

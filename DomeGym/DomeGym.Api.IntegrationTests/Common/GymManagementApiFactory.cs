@@ -14,18 +14,6 @@ public class GymManagementApiFactory : WebApplicationFactory<IAssemblyMarker>, I
 
     public HttpClient HttpClient { get; private set; } = null!;
 
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
-    {
-        _testDatabase = SqliteTestDatabase.CreateAndInitialize();
-
-        builder.ConfigureTestServices(services =>
-        {
-            services
-                .RemoveAll<DbContextOptions<GymManagementDbContext>>()
-                .AddDbContext<GymManagementDbContext>((sp, options) => options.UseSqlite(_testDatabase.Connection));
-        });
-    }
-
     public Task InitializeAsync()
     {
         HttpClient = CreateClient();
@@ -38,6 +26,18 @@ public class GymManagementApiFactory : WebApplicationFactory<IAssemblyMarker>, I
         _testDatabase.Dispose();
 
         return Task.CompletedTask;
+    }
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        _testDatabase = SqliteTestDatabase.CreateAndInitialize();
+
+        builder.ConfigureTestServices(services =>
+        {
+            services
+                .RemoveAll<DbContextOptions<GymManagementDbContext>>()
+                .AddDbContext<GymManagementDbContext>((sp, options) => options.UseSqlite(_testDatabase.Connection));
+        });
     }
 
     public void ResetDatabase()

@@ -1,6 +1,5 @@
-﻿namespace DomeGym.Api;
+namespace DomeGym.Api;
 
 public interface IAssemblyMarker
 {
-    
 }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GymManagement.Infrastructure.Migrations
+namespace DomeGym.Infrastructure.Migrations
 {
     [DbContext(typeof(GymManagementDbContext))]
     partial class GymManagementDbContextModelSnapshot : ModelSnapshot
@@ -15,9 +15,9 @@ namespace GymManagement.Infrastructure.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
-            modelBuilder.Entity("GymManagement.Domain.Admins.Admin", b =>
+            modelBuilder.Entity("DomeGym.Domain.Admins.Admin", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace GymManagement.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("GymManagement.Domain.Gyms.Gym", b =>
+            modelBuilder.Entity("DomeGym.Domain.Gyms.Gym", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
@@ -68,7 +68,7 @@ namespace GymManagement.Infrastructure.Migrations
                     b.ToTable("Gyms");
                 });
 
-            modelBuilder.Entity("GymManagement.Domain.Subscriptions.Subscription", b =>
+            modelBuilder.Entity("DomeGym.Domain.Subscriptions.Subscription", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
@@ -91,6 +91,43 @@ namespace GymManagement.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subscriptions");
+                });
+
+            modelBuilder.Entity("DomeGym.Domain.Users.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("AdminId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ParticipantId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("TrainerId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("_passwordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("PasswordHash");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

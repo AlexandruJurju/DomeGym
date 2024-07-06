@@ -14,6 +14,19 @@ public class MediatorFactory : WebApplicationFactory<IAssemblyMarker>, IAsyncLif
 {
     private SqliteTestDatabase _testDatabase = null!;
 
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public new Task DisposeAsync()
+    {
+        _testDatabase.Dispose();
+
+        return Task.CompletedTask;
+    }
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         _testDatabase = SqliteTestDatabase.CreateAndInitialize();
@@ -33,15 +46,5 @@ public class MediatorFactory : WebApplicationFactory<IAssemblyMarker>, IAsyncLif
         _testDatabase.ResetDatabase();
 
         return serviceScope.ServiceProvider.GetRequiredService<IMediator>();
-    }
-
-
-    public Task InitializeAsync() => Task.CompletedTask;
-
-    public new Task DisposeAsync()
-    {
-        _testDatabase.Dispose();
-
-        return Task.CompletedTask;
     }
 }
