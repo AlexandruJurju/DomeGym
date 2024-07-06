@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomeGym.Application.UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomeGym.Application.SubcutaneousTests", "DomeGym.Application.SubcutaneousTests\DomeGym.Application.SubcutaneousTests.csproj", "{92BD2E7B-1767-4AA6-8496-31ADD779B4F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomeGym.Api.IntegrationTests", "DomeGym.Api.IntegrationTests\DomeGym.Api.IntegrationTests.csproj", "{F355CBEB-254C-4317-AB7C-E86FA14B2990}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{92BD2E7B-1767-4AA6-8496-31ADD779B4F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92BD2E7B-1767-4AA6-8496-31ADD779B4F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92BD2E7B-1767-4AA6-8496-31ADD779B4F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F355CBEB-254C-4317-AB7C-E86FA14B2990}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F355CBEB-254C-4317-AB7C-E86FA14B2990}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F355CBEB-254C-4317-AB7C-E86FA14B2990}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F355CBEB-254C-4317-AB7C-E86FA14B2990}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EDC7AEF2-A626-413E-B265-8AC2CABB815F} = {D3AFA9DA-27D8-4B77-BC02-CD599618B4B4}
@@ -75,5 +81,6 @@ Global
 		{1051606B-42DF-4316-BEEC-9D3AD1A1C14E} = {D7133364-04C5-4A57-8011-32A263F054F3}
 		{E845F609-6E2C-4F19-8394-2BD2193BE32D} = {D7133364-04C5-4A57-8011-32A263F054F3}
 		{92BD2E7B-1767-4AA6-8496-31ADD779B4F9} = {D7133364-04C5-4A57-8011-32A263F054F3}
+		{F355CBEB-254C-4317-AB7C-E86FA14B2990} = {D7133364-04C5-4A57-8011-32A263F054F3}
 	EndGlobalSection
 EndGlobal
