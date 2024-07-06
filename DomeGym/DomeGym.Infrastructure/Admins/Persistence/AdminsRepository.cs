@@ -5,14 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DomeGym.Infrastructure.Admins.Persistence;
 
-public class AdminsRepository : IAdminsRepository
+public class AdminsRepository(GymManagementDbContext dbContext) : IAdminsRepository
 {
-    private readonly GymManagementDbContext _dbContext;
-
-    public AdminsRepository(GymManagementDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly GymManagementDbContext _dbContext = dbContext;
 
     public Task<Admin?> GetByIdAsync(Guid adminId)
     {

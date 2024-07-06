@@ -1,14 +1,26 @@
-﻿namespace DomeGym.Domain.Common;
+namespace DomeGym.Domain.Common;
 
 public abstract class Entity
 {
-    public Guid Id { get; set; }
-    protected readonly List<IDomainEvent> _domainEvents = new();
+    protected readonly List<IDomainEvent> _domainEvents = [];
 
-    protected Entity(Guid id) => Id = id;
+    protected Entity(Guid id)
+    {
+        Id = id;
+    }
 
-    // for EF Core
     protected Entity()
     {
+    }
+
+    public Guid Id { get; init; }
+
+    public List<IDomainEvent> PopDomainEvents()
+    {
+        var copy = _domainEvents.ToList();
+
+        _domainEvents.Clear();
+
+        return copy;
     }
 }

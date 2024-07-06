@@ -6,7 +6,7 @@ namespace DomeGym.Domain.Subscriptions;
 
 public class Subscription
 {
-    private readonly List<Guid> _gymIds = new();
+    private readonly List<Guid> _gymIds = [];
     private readonly int _maxGyms;
 
     public Subscription(
@@ -35,10 +35,7 @@ public class Subscription
     {
         _gymIds.Throw().IfContains(gym.Id);
 
-        if (_gymIds.Count >= _maxGyms)
-        {
-            return SubscriptionErrors.CannotHaveMoreGymsThanTheSubscriptionAllows;
-        }
+        if (_gymIds.Count >= _maxGyms) return SubscriptionErrors.CannotHaveMoreGymsThanTheSubscriptionAllows;
 
         _gymIds.Add(gym.Id);
 

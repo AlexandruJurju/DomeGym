@@ -5,25 +5,20 @@ using MediatR;
 
 namespace DomeGym.Application.Gyms.Commands.CreateGym;
 
-public class CreateGymCommandHandler : IRequestHandler<CreateGymCommand, ErrorOr<Gym>>
+public class CreateGymCommandHandler(
+    ISubscriptionsRepository subscriptionsRepository,
+    IGymsRepository gymsRepository,
+    IUnitOfWork unitOfWork)
+    : IRequestHandler<CreateGymCommand, ErrorOr<Gym>>
 {
-    private readonly IGymsRepository _gymsRepository;
-    private readonly ISubscriptionsRepository _subscriptionsRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CreateGymCommandHandler(
-        ISubscriptionsRepository subscriptionsRepository,
-        IGymsRepository gymsRepository,
-        IUnitOfWork unitOfWork)
-    {
-        _subscriptionsRepository = subscriptionsRepository;
-        _gymsRepository = gymsRepository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IGymsRepository _gymsRepository = gymsRepository;
+    private readonly ISubscriptionsRepository _subscriptionsRepository = subscriptionsRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task<ErrorOr<Gym>> Handle(CreateGymCommand command, CancellationToken cancellationToken)
     {
         var subscription = await _subscriptionsRepository.GetByIdAsync(command.SubscriptionId);
+
         if (subscription is null) return Error.NotFound(description: "Subscription not found");
 
         var gym = new Gym(
@@ -32,6 +27,7 @@ public class CreateGymCommandHandler : IRequestHandler<CreateGymCommand, ErrorOr
             subscription.Id);
 
         var addGymResult = subscription.AddGym(gym);
+
         if (addGymResult.IsError) return addGymResult.Errors;
 
         await _subscriptionsRepository.UpdateAsync(subscription);

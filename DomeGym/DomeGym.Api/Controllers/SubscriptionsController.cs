@@ -9,14 +9,9 @@ using DomainSubscriptionType = DomeGym.Domain.Subscriptions.SubscriptionType;
 namespace DomeGym.Api.Controllers;
 
 [Route("[controller]")]
-public class SubscriptionsController : ApiController
+public class SubscriptionsController(ISender mediator) : ApiController
 {
-    private readonly ISender _mediator;
-
-    public SubscriptionsController(ISender mediator)
-    {
-        _mediator = mediator;
-    }
+    private readonly ISender _mediator = mediator;
 
     [HttpPost]
     public async Task<IActionResult> CreateSubscription(CreateSubscriptionRequest request)

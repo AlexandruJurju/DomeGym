@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace DomeGym.Application.Gyms.Commands.CreateGym;
 

@@ -7,8 +7,8 @@ namespace DomeGym.Domain.Gyms;
 public class Gym
 {
     private readonly int _maxRooms;
-    private readonly List<Guid> _roomIds = new();
-    private readonly List<Guid> _trainerIds = new();
+    private readonly List<Guid> _roomIds = [];
+    private readonly List<Guid> _trainerIds = [];
 
     public Gym(
         string name,
@@ -53,11 +53,6 @@ public class Gym
 
         _trainerIds.Add(trainerId);
         return Result.Success;
-    }
-
-    public bool HasTrainer(Guid trainerId)
-    {
-        return _trainerIds.Contains(trainerId);
     }
 
     public void RemoveRoom(Guid roomId)

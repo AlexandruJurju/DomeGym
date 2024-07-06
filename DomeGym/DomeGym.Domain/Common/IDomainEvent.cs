@@ -1,8 +1,5 @@
-﻿using MediatR;
+using MediatR;
 
 namespace DomeGym.Domain.Common;
 
-public interface IDomainEvent : INotification
-{
-    
-}
+public interface IDomainEvent : INotification;

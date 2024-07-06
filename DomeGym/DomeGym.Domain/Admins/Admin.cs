@@ -10,12 +10,17 @@ public class Admin : Entity
     public Admin(
         Guid userId,
         Guid? subscriptionId = null,
-        Guid? id = null) : base(id ?? Guid.NewGuid())
+        Guid? id = null)
+        : base(id ?? Guid.NewGuid())
     {
         UserId = userId;
         SubscriptionId = subscriptionId;
     }
-    
+
+    private Admin()
+    {
+    }
+
     public Guid UserId { get; }
     public Guid? SubscriptionId { get; private set; }
 
@@ -33,10 +38,5 @@ public class Admin : Entity
         SubscriptionId = null;
 
         _domainEvents.Add(new SubscriptionDeletedEvent(subscriptionId));
-    }
-
-    // for EF Core
-    private Admin()
-    {
     }
 }

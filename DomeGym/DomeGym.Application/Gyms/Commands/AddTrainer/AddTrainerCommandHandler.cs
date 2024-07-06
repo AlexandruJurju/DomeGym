@@ -4,18 +4,13 @@ using MediatR;
 
 namespace DomeGym.Application.Gyms.Commands.AddTrainer;
 
-public class AddTrainerCommandHandler : IRequestHandler<AddTrainerCommand, ErrorOr<Success>>
+public class AddTrainerCommandHandler(
+    IGymsRepository gymsRepository,
+    IUnitOfWork unitOfWork)
+    : IRequestHandler<AddTrainerCommand, ErrorOr<Success>>
 {
-    private readonly IGymsRepository _gymsRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public AddTrainerCommandHandler(
-        IGymsRepository gymsRepository,
-        IUnitOfWork unitOfWork)
-    {
-        _gymsRepository = gymsRepository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IGymsRepository _gymsRepository = gymsRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task<ErrorOr<Success>> Handle(AddTrainerCommand command, CancellationToken cancellationToken)
     {

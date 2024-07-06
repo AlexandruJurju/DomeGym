@@ -4,18 +4,15 @@ using MediatR;
 
 namespace DomeGym.Application.Rooms.Commands.DeleteRoom;
 
-public class DeleteRoomCommandHandler : IRequestHandler<DeleteRoomCommand, ErrorOr<Deleted>>
+public class DeleteRoomCommandHandler(
+    IGymsRepository gymsRepository,
+    ISubscriptionsRepository subscriptionsRepository,
+    IUnitOfWork unitOfWork)
+    : IRequestHandler<DeleteRoomCommand, ErrorOr<Deleted>>
 {
-    private readonly IGymsRepository _gymsRepository;
-    private readonly ISubscriptionsRepository _subscriptionsRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public DeleteRoomCommandHandler(IGymsRepository gymsRepository, ISubscriptionsRepository subscriptionsRepository, IUnitOfWork unitOfWork)
-    {
-        _gymsRepository = gymsRepository;
-        _subscriptionsRepository = subscriptionsRepository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IGymsRepository _gymsRepository = gymsRepository;
+    private readonly ISubscriptionsRepository _subscriptionsRepository = subscriptionsRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task<ErrorOr<Deleted>> Handle(DeleteRoomCommand command, CancellationToken cancellationToken)
     {

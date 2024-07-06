@@ -7,14 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace DomeGym.Api.Controllers;
 
 [Route("gyms/{gymId:guid}/rooms")]
-public class RoomsController : ApiController
+public class RoomsController(ISender mediator) : ApiController
 {
-    private readonly ISender _mediator;
-
-    public RoomsController(ISender mediator)
-    {
-        _mediator = mediator;
-    }
+    private readonly ISender _mediator = mediator;
 
     [HttpPost]
     public async Task<IActionResult> CreateRoom(

@@ -1,4 +1,4 @@
-﻿using DomeGym.Domain.Common;
+using DomeGym.Domain.Common;
 
 namespace DomeGym.Domain.Admins.Events;
 
